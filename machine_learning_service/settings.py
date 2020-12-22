@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,8 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # add apps here as you make them
-    'food_delivery'
+    'food_delivery',
+    'chatapp'
 ]
+
+redis_host = os.environ.get('REDIS_HOST', 'localhost')
+ASGI_APPLICATION = 'machine_learning_service.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [(redis_host, 6379)],
+        },
+        'ROUTING': 'chatapp.routing.channel_routing',
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
