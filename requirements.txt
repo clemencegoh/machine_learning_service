@@ -1,4 +1,6 @@
+asgiref
 Django
 asgi_redis
 channels
+channels-redis
 websocket-client-py3

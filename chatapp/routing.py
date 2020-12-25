@@ -1,10 +1,7 @@
-from channels import route
+from django.urls import re_path
 
-# This function will display all messages received in the console
-def message_handler(message):
-    print(message['text'])
+from . import consumers
 
-
-channel_routing = [
-    route("websocket.receive", message_handler)  # we register our message handler
+websocket_urlpatterns = [
+    re_path(r'ws/chat/(?P<room_name>\w+)/$', consumers.ChatConsumer.as_asgi()),
 ]
